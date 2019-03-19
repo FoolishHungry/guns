@@ -4,6 +4,16 @@ import java.util.Date;
 
 public class UserInfoModel {
 
+    private Integer uuid;
+
+    public Integer getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(Integer uuid) {
+        this.uuid = uuid;
+    }
+
     private String username;
     private String nickname;
     private String email;

@@ -12,6 +12,8 @@ import com.stylefeng.guns.rest.common.persistence.model.UserT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+
 @Component
 @Service(interfaceClass = UserAPI.class)
 public class UserServiceImpl implements UserAPI{
@@ -81,6 +83,7 @@ public class UserServiceImpl implements UserAPI{
     private UserInfoModel do2UserInfo(UserT userT){
         UserInfoModel userInfoModel = new UserInfoModel();
 
+        userInfoModel.setUuid(userT.getUuid());
         userInfoModel.setHeadAddress(userT.getHeadUrl());
         userInfoModel.setPhone(userT.getUserPhone());
         userInfoModel.setUpdateTime(userT.getUpdateTime().getTime());
@@ -107,8 +110,36 @@ public class UserServiceImpl implements UserAPI{
         return userInfoModel;
     }
 
+    private Date time2Date(long time){
+        Date date = new Date(time);
+        return date;
+    }
+
     @Override
     public UserInfoModel updateUserInfo(UserInfoModel userInfoModel) {
-        return null;
+        // 将传入的数据转换为UserT
+        UserT userT = new UserT();
+        userT.setUuid(userInfoModel.getUuid());
+        userT.setNickName(userInfoModel.getNickname());
+        userT.setLifeState(Integer.parseInt(userInfoModel.getLifeState()));
+        userT.setBirthday(userInfoModel.getBirthday());
+        userT.setBiography(userInfoModel.getBiography());
+        userT.setBeginTime(time2Date(userInfoModel.getBeginTime()));
+        userT.setHeadUrl(userInfoModel.getHeadAddress());
+        userT.setEmail(userInfoModel.getEmail());
+        userT.setAddress(userInfoModel.getAddress());
+        userT.setUserPhone(userInfoModel.getPhone());
+        userT.setUserSex(userInfoModel.getSex());
+        userT.setUpdateTime(time2Date(System.currentTimeMillis()));
+        // 将数据存入数据库
+        Integer isSuccess = userTMapper.updateById(userT);
+        if(isSuccess > 0){
+            // 按照Id将用户信息查出来
+            UserInfoModel userInfo = getUserInfo(userT.getUuid());
+            // 返回给前端
+            return userInfo;
+        }else {
+            return userInfoModel;
+        }
     }
 }
