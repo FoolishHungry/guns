@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserAPI{
     private UserTMapper userTMapper;
 
 
+
+
     @Override
     public boolean register(UserModel userModel) {
         //获取注册信息
@@ -110,21 +112,22 @@ public class UserServiceImpl implements UserAPI{
         return userInfoModel;
     }
 
-    private Date time2Date(long time){
-        Date date = new Date(time);
+    private java.util.Date time2Date(long time){
+        java.util.Date date = new Date(time);
         return date;
     }
 
     @Override
     public UserInfoModel updateUserInfo(UserInfoModel userInfoModel) {
         // 将传入的数据转换为UserT
+        System.out.println("+++++++++++++++++++++++++++++");
         UserT userT = new UserT();
         userT.setUuid(userInfoModel.getUuid());
         userT.setNickName(userInfoModel.getNickname());
         userT.setLifeState(Integer.parseInt(userInfoModel.getLifeState()));
         userT.setBirthday(userInfoModel.getBirthday());
         userT.setBiography(userInfoModel.getBiography());
-        userT.setBeginTime(time2Date(userInfoModel.getBeginTime()));
+        userT.setBeginTime(null);
         userT.setHeadUrl(userInfoModel.getHeadAddress());
         userT.setEmail(userInfoModel.getEmail());
         userT.setAddress(userInfoModel.getAddress());
@@ -132,6 +135,7 @@ public class UserServiceImpl implements UserAPI{
         userT.setUserSex(userInfoModel.getSex());
         userT.setUpdateTime(time2Date(System.currentTimeMillis()));
         // 将数据存入数据库
+
         Integer isSuccess = userTMapper.updateById(userT);
         if(isSuccess > 0){
             // 按照Id将用户信息查出来
