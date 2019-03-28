@@ -32,7 +32,7 @@ public class AuthController {
     @Resource(name = "simpleValidator")
     private IReqValidator reqValidator;
 
-    @Reference(interfaceClass = UserAPI.class)
+    @Reference(interfaceClass = UserAPI.class, check = false)
     private UserAPI userAPI;
 
     @RequestMapping(value = "${jwt.auth-path}")

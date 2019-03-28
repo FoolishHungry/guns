@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 
 @Component
-@Service(interfaceClass = UserAPI.class)
+@Service(interfaceClass = UserAPI.class, loadbalance = "roundrobin")
 public class UserServiceImpl implements UserAPI{
 
     @Autowired
