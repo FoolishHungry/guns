@@ -9,7 +9,7 @@ import java.util.List;
 public interface FilmServiceApi {
 
     //获取banners
-    BannerVO getBanners();
+    List<BannerVO> getBanners();
     // 获取热映影片
     FilmVO getHotFilms(boolean isLimit, int nums);
     // 获取即将上映影片【按受欢迎程度做排序】
