@@ -3,10 +3,7 @@ package com.stylefeng.guns.rest.modular.film;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.api.film.FilmServiceApi;
-import com.stylefeng.guns.api.film.vo.CatVO;
-import com.stylefeng.guns.api.film.vo.FilmVO;
-import com.stylefeng.guns.api.film.vo.SourceVO;
-import com.stylefeng.guns.api.film.vo.YearVO;
+import com.stylefeng.guns.api.film.vo.*;
 import com.stylefeng.guns.rest.modular.film.vo.FilmConditionVO;
 import com.stylefeng.guns.rest.modular.film.vo.FilmIndexVO;
 import com.stylefeng.guns.rest.modular.film.vo.FilmRequestVO;
@@ -25,6 +22,7 @@ public class FilmController {
 
     @Reference(interfaceClass = FilmServiceApi.class)
     private FilmServiceApi filmServiceApi;
+    private FilmDetailVO filmDetail;
 
     // 获取首页信息接口
 
@@ -202,11 +200,37 @@ public class FilmController {
     public ResponseVO films(@PathVariable("searchParam")String searchParam,
                             int searchType){
          // 根据searchType，判断查询类型
-
+        FilmDetailVO filmDetail = filmServiceApi.getFilmDetail(searchType, searchParam);
         // 不同的查询类型，传入的条件会略有不同【】
 
-        // 查询影片的详细信息 -> Dubbo的异步获取
 
-        return null;
+        String filmId = filmDetail.getFilmId();
+        // 查询影片的详细信息 -> Dubbo的异步获取
+        // 获取影片描述信息
+        FilmDescVO filmDescVO = filmServiceApi.getFilmDesc(filmId);
+        // 获取图片信息
+        ImgVO imgVO = filmServiceApi.getImgs(filmId);
+        // 获取导演信息
+        ActorVO directorVO = filmServiceApi.getDectInfo(filmId);
+        // 获取演员信息
+        List<ActorVO> actors = filmServiceApi.getActors(filmId);
+
+        InfoRequestVO infoRequestVO = new InfoRequestVO();
+
+        //组织Actor属性
+        ActorRequestVO actorRequestVO = new ActorRequestVO();
+        actorRequestVO.setActors(actors);
+        actorRequestVO.setDirecter(directorVO);
+
+        // 组织info对象
+        infoRequestVO.setActors(actorRequestVO);
+        infoRequestVO.setBiography(filmDescVO.getBiography());
+        infoRequestVO.setFilmId(filmId);
+        infoRequestVO.setImgVO(imgVO);
+
+        // 组织成返回值
+        filmDetail.setInfo04(infoRequestVO);
+
+        return ResponseVO.success("http://img.meetingshop.cn/", filmDetail);
     }
 }

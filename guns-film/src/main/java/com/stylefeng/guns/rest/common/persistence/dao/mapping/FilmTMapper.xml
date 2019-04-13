@@ -21,6 +21,7 @@
 
     <select id="getFilmDetailByName" parameterType="java.lang.String" resultType="com.stylefeng.guns.api.film.vo.FilmDetailVO">
       select
+        film.uuid as filmId,
         film.film_name as filmName,
         info.film_en_name as filmEnName,
         film.img_address as imgAddress,
@@ -39,6 +40,7 @@
 
     <select id="getFilmDetailById" parameterType="java.lang.String" resultType="com.stylefeng.guns.api.film.vo.FilmDetailVO">
       select
+        film.uuid as filmId,
         film.film_name as filmName,
         info.film_en_name as filmEnName,
         film.img_address as imgAddress,

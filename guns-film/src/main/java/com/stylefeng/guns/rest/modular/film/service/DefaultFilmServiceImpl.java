@@ -28,6 +28,10 @@ public class DefaultFilmServiceImpl implements FilmServiceApi {
     private YearDictTMapper yearDictTMapper;
     @Autowired
     private SourceDictTMapper sourceDictTMapper;
+    @Autowired
+    private FilmInfoTMapper filmInfoTMapper;
+    @Autowired
+    private ActorTMapper actorTMapper;
     @Override
     public List<BannerVO> getBanners() {
         List<BannerVO> result = new ArrayList<>();
@@ -328,8 +332,78 @@ public class DefaultFilmServiceImpl implements FilmServiceApi {
         return years;
     }
 
+
+
     @Override
     public FilmDetailVO getFilmDetail(int searchType, String searchParam) {
-        return null;
+
+        FilmDetailVO filmDetailVO = null;
+        //searchType 1-按名称 2-按ID的查找
+        if(searchType == 1){
+            filmDetailVO = filmTMapper.getFilmDetailByName(searchParam);
+        }else{
+            filmDetailVO = filmTMapper.getFilmDetailById(searchParam);
+        }
+        return filmDetailVO;
+    }
+
+    private FilmInfoT getFilmInfo(String filmId){
+
+        FilmInfoT filmInfoT = new FilmInfoT();
+        filmInfoT.setFilmId(filmId);
+
+        filmInfoT = filmInfoTMapper.selectOne(filmInfoT);
+
+        return filmInfoT;
+    }
+
+    @Override
+    public FilmDescVO getFilmDesc(String filmId) {
+
+        FilmInfoT filmInfoT = getFilmInfo(filmId);
+
+        FilmDescVO filmDescVO = new FilmDescVO();
+        filmDescVO.setBiography(filmInfoT.getBiography());
+        filmDescVO.setFilmId(filmId);
+        return filmDescVO;
+    }
+
+    @Override
+    public ImgVO getImgs(String filmId) {
+        FilmInfoT filmInfoT = getFilmInfo(filmId);
+        // 图片地址是五个以逗号为分隔的链接URL
+        String filmImgStr = filmInfoT.getFilmImgs();
+        String[] filmImgs = filmImgStr.split(",");
+
+        ImgVO imgVO = new ImgVO();
+        imgVO.setMainImg(filmImgs[0]);
+        imgVO.setImg01(filmImgs[1]);
+        imgVO.setImg02(filmImgs[2]);
+        imgVO.setImg03(filmImgs[3]);
+        imgVO.setImg04(filmImgs[4]);
+        return imgVO;
+    }
+
+    @Override
+    public ActorVO getDectInfo(String filmId) {
+
+        FilmInfoT filmInfoT = getFilmInfo(filmId);
+        //获取导演编号
+        Integer directId = filmInfoT.getDirectorId();
+        ActorT actorT = actorTMapper.selectById(directId);
+
+        ActorVO actorVO = new ActorVO();
+        actorVO.setImgAddress(actorT.getActorImg());
+        actorVO.setDirectorName(actorT.getActorName());
+
+        return actorVO;
+    }
+
+    @Override
+    public List<ActorVO> getActors(String filmId) {
+
+        List<ActorVO> actors = actorTMapper.getActors(filmId);
+
+        return actors;
     }
 }
