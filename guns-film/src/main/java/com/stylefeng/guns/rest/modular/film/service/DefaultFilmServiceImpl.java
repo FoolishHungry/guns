@@ -340,7 +340,7 @@ public class DefaultFilmServiceImpl implements FilmServiceApi {
         FilmDetailVO filmDetailVO = null;
         //searchType 1-按名称 2-按ID的查找
         if(searchType == 1){
-            filmDetailVO = filmTMapper.getFilmDetailByName(searchParam);
+            filmDetailVO = filmTMapper.getFilmDetailByName("%"+searchParam+"%");
         }else{
             filmDetailVO = filmTMapper.getFilmDetailById(searchParam);
         }
