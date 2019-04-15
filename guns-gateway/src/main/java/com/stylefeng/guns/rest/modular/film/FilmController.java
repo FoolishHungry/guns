@@ -10,7 +10,6 @@ import com.stylefeng.guns.rest.modular.film.vo.FilmConditionVO;
 import com.stylefeng.guns.rest.modular.film.vo.FilmIndexVO;
 import com.stylefeng.guns.rest.modular.film.vo.FilmRequestVO;
 import com.stylefeng.guns.rest.modular.vo.ResponseVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,10 +23,10 @@ public class FilmController {
 
     private static final String IMG_PRE = "http://img.meetingshop.cn/";
 
-    @Reference(interfaceClass = FilmServiceApi.class)
+    @Reference(interfaceClass = FilmServiceApi.class,check = false)
     private FilmServiceApi filmServiceApi;
 
-    @Reference(interfaceClass = FilmAsyncServiceApi.class,async = true)
+    @Reference(interfaceClass = FilmAsyncServiceApi.class,async = true,check = false)
     private FilmAsyncServiceApi filmAsyncServiceApi;
 
     private FilmDetailVO filmDetail;
