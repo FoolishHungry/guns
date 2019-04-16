@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.modular.order.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.api.cinema.CinemaServiceAPI;
@@ -10,6 +11,7 @@ import com.stylefeng.guns.api.order.OrderServiceAPI;
 import com.stylefeng.guns.api.order.vo.OrderVO;
 import com.stylefeng.guns.rest.common.persistence.dao.OrderTMapper;
 import com.stylefeng.guns.rest.common.persistence.model.OrderT;
+import com.stylefeng.guns.rest.common.util.FTPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,19 +22,19 @@ import java.util.List;
 @Slf4j
 @Component
 @Service(interfaceClass = OrderServiceAPI.class,group = "default")
-public class DefaultOrderServiceImpl /*implements OrderServiceAPI*/ {
+public class DefaultOrderServiceImpl implements OrderServiceAPI {
 
-    /*@Autowired
+    @Autowired
     private OrderTMapper orderTMapper;
 
     @Reference(interfaceClass = CinemaServiceAPI.class,check = false)
     private CinemaServiceAPI cinemaServiceAPI;
 
     @Autowired
-    private FTPUtil ftpUtil;*/
+    private FTPUtil ftpUtil;
 
     // 验证是否为真实的座位编号
-    /*@Override
+    @Override
     public boolean isTrueSeats(String fieldId, String seats) {
         // 根据FieldId找到对应的座位位置图
         String seatPath = orderTMapper.getSeatsByFieldId(fieldId);
@@ -63,7 +65,7 @@ public class DefaultOrderServiceImpl /*implements OrderServiceAPI*/ {
         }else{
             return false;
         }
-    }*/
+    }
 
     // 判断是否为已售座位
     /*@Override
