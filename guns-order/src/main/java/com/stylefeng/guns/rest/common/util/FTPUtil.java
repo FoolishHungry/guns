@@ -63,6 +63,7 @@ public class FTPUtil {
             }
 
             ftpClient.logout();
+            log.debug("======================"+stringBuffer.toString());
             return stringBuffer.toString();
         }catch (Exception e){
             log.error("获取文件信息失败",e);

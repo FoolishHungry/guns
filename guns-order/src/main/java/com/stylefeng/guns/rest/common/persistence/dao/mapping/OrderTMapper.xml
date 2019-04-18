@@ -23,8 +23,8 @@
         FROM
           field_t f,
           hall_dict_t d
-        WHERE f.`hall_id` = d.`UUID`
-          AND f.`UUID` = ${fieldId}
+        WHERE f.hall_id = d.UUID
+          AND f.UUID = #{fieldId}
     </select>
 
 
@@ -38,10 +38,10 @@
           o.`order_price` AS orderPrice,
           UNIX_TIMESTAMP(o.`order_time`) AS orderTimestamp
         FROM
-          mooc_order_t o,
-          mooc_field_t f,
-          mooc_hall_film_info_t h,
-          mooc_cinema_t c
+          order_t o,
+          field_t f,
+          hall_film_info_t h,
+          cinema_t c
         WHERE o.`cinema_id` = c.`UUID`
           AND o.`field_id` = f.`UUID`
           AND o.`film_id` = h.`film_id`
@@ -59,10 +59,10 @@
           o.`order_price` AS orderPrice,
           UNIX_TIMESTAMP(o.`order_time`) AS orderTimestamp
         FROM
-          mooc_order_t o,
-          mooc_field_t f,
-          mooc_hall_film_info_t h,
-          mooc_cinema_t c
+          order_t o,
+          field_t f,
+          hall_film_info_t h,
+          cinema_t c
         WHERE o.`cinema_id` = c.`UUID`
           AND o.`field_id` = f.`UUID`
           AND o.`film_id` = h.`film_id`
@@ -70,7 +70,7 @@
     </select>
 
     <select id="getSoldSeatsByFieldId" parameterType="java.lang.Integer" resultType="java.lang.String">
-        SELECT GROUP_CONCAT(seats_ids) FROM mooc_order_t where field_id=#{fieldId}
+        SELECT GROUP_CONCAT(seats_ids) FROM order_t where field_id=#{fieldId}
     </select>
 
 </mapper>

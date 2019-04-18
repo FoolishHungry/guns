@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.api.cinema.CinemaServiceAPI;
 import com.stylefeng.guns.api.cinema.vo.FilmInfoVO;
+import com.stylefeng.guns.api.cinema.vo.OrderQueryVO;
 import com.stylefeng.guns.api.order.OrderServiceAPI;
 import com.stylefeng.guns.api.order.vo.OrderVO;
+import com.stylefeng.guns.core.util.UUIDUtil;
 import com.stylefeng.guns.rest.common.persistence.dao.OrderTMapper;
 import com.stylefeng.guns.rest.common.persistence.model.OrderT;
 import com.stylefeng.guns.rest.common.util.FTPUtil;
@@ -16,12 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Component
-@Service(interfaceClass = OrderServiceAPI.class,group = "default")
+@Service(interfaceClass = OrderServiceAPI.class)
 public class DefaultOrderServiceImpl implements OrderServiceAPI {
 
     @Autowired
@@ -38,7 +42,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
     public boolean isTrueSeats(String fieldId, String seats) {
         // 根据FieldId找到对应的座位位置图
         String seatPath = orderTMapper.getSeatsByFieldId(fieldId);
-
+        log.debug("=*=*=*=*=*"+seatPath);
         // 读取位置图，判断seats是否为真
         String fileStrByAddress = ftpUtil.getFileStrByAddress(seatPath);
 
@@ -68,17 +72,17 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
     }
 
     // 判断是否为已售座位
-    /*@Override
+    @Override
     public boolean isNotSoldSeats(String fieldId, String seats) {
 
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("field_id",fieldId);
 
-        List<MoocOrderT> list = moocOrderTMapper.selectList(entityWrapper);
+        List<OrderT> list = orderTMapper.selectList(entityWrapper);
         String[] seatArrs = seats.split(",");
         // 有任何一个编号匹配上，则直接返回失败
-        for(MoocOrderT moocOrderT : list){
-            String[] ids = moocOrderT.getSeatsIds().split(",");
+        for(OrderT orderT : list){
+            String[] ids = orderT.getSeatsIds().split(",");
             for(String id : ids){
                 for(String seat : seatArrs){
                     if(id.equalsIgnoreCase(seat)){
@@ -88,10 +92,10 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
             }
         }
         return true;
-    }*/
+    }
 
     // 创建新的订单
-    /*@Override
+    @Override
     public OrderVO saveOrderInfo(
             Integer fieldId, String soldSeats, String seatsName, Integer userId) {
 
@@ -111,7 +115,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         int solds = soldSeats.split(",").length;
         double totalPrice = getTotalPrice(solds,filmPrice);
 
-        OrderT orderT = new MoocOrderT();
+        OrderT orderT = new OrderT();
         orderT.setUuid(uuid);
         orderT.setSeatsName(seatsName);
         orderT.setSeatsIds(soldSeats);
@@ -137,9 +141,9 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
             log.error("订单插入失败");
             return null;
         }
-    }*/
+    }
 
-   /* private static double getTotalPrice(int solds,double filmPrice){
+    private static double getTotalPrice(int solds,double filmPrice){
         BigDecimal soldsDeci = new BigDecimal(solds);
         BigDecimal filmPriceDeci = new BigDecimal(filmPrice);
 
@@ -149,9 +153,9 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         BigDecimal bigDecimal = result.setScale(2, RoundingMode.HALF_UP);
 
         return bigDecimal.doubleValue();
-    }*/
+    }
 
-/*
+
     @Override
     public Page<OrderVO> getOrderByUserId(Integer userId, Page<OrderVO> page) {
         Page<OrderVO> result = new Page<>();
@@ -176,7 +180,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
                 return result;
             }
         }
-    }*/
+    }
 
     // 根据放映查询，获取所有的已售座位
     /*
@@ -185,7 +189,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         1  5,6,7
 
      */
-    /*@Override
+    @Override
     public String getSoldSeatsByFieldId(Integer fieldId) {
         if(fieldId == null){
             log.error("查询已售座位错误，未传入任何场次编号");
@@ -194,5 +198,5 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
             String soldSeatsByFieldId = orderTMapper.getSoldSeatsByFieldId(fieldId);
             return soldSeatsByFieldId;
         }
-    }*/
+    }
 }
