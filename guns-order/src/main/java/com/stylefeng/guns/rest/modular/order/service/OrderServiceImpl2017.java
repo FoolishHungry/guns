@@ -11,8 +11,8 @@ import com.stylefeng.guns.api.cinema.vo.OrderQueryVO;
 import com.stylefeng.guns.api.order.OrderServiceAPI;
 import com.stylefeng.guns.api.order.vo.OrderVO;
 import com.stylefeng.guns.core.util.UUIDUtil;
-import com.stylefeng.guns.rest.common.persistence.dao.OrderTMapper;
-import com.stylefeng.guns.rest.common.persistence.model.OrderT;
+import com.stylefeng.guns.rest.common.persistence.dao.Order2017TMapper;
+import com.stylefeng.guns.rest.common.persistence.model.Order2017T;
 import com.stylefeng.guns.rest.common.util.FTPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Service(interfaceClass = OrderServiceAPI.class,group = "default")
-public class DefaultOrderServiceImpl implements OrderServiceAPI {
+@Service(interfaceClass = OrderServiceAPI.class,group = "order2017")
+public class OrderServiceImpl2017 implements OrderServiceAPI {
 
     @Autowired
-    private OrderTMapper orderTMapper;
+    private Order2017TMapper order2017TMapper;
 
     @Reference(interfaceClass = CinemaServiceAPI.class,check = false)
     private CinemaServiceAPI cinemaServiceAPI;
@@ -41,7 +41,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
     @Override
     public boolean isTrueSeats(String fieldId, String seats) {
         // 根据FieldId找到对应的座位位置图
-        String seatPath = orderTMapper.getSeatsByFieldId(fieldId);
+        String seatPath = order2017TMapper.getSeatsByFieldId(fieldId);
         log.debug("=*=*=*=*=*"+seatPath);
         // 读取位置图，判断seats是否为真
         String fileStrByAddress = ftpUtil.getFileStrByAddress(seatPath);
@@ -78,10 +78,10 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("field_id",fieldId);
 
-        List<OrderT> list = orderTMapper.selectList(entityWrapper);
+        List<Order2017T> list = order2017TMapper.selectList(entityWrapper);
         String[] seatArrs = seats.split(",");
         // 有任何一个编号匹配上，则直接返回失败
-        for(OrderT orderT : list){
+        for(Order2017T orderT : list){
             String[] ids = orderT.getSeatsIds().split(",");
             for(String id : ids){
                 for(String seat : seatArrs){
@@ -115,7 +115,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         int solds = soldSeats.split(",").length;
         double totalPrice = getTotalPrice(solds,filmPrice);
 
-        OrderT orderT = new OrderT();
+        Order2017T orderT = new Order2017T();
         orderT.setUuid(uuid);
         orderT.setSeatsName(seatsName);
         orderT.setSeatsIds(soldSeats);
@@ -126,10 +126,10 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         orderT.setFieldId(fieldId);
         orderT.setCinemaId(cinemaId);
 
-        Integer insert = orderTMapper.insert(orderT);
+        Integer insert = order2017TMapper.insert(orderT);
         if(insert>0){
             // 返回查询结果
-            OrderVO orderVO = orderTMapper.getOrderInfoById(uuid);
+            OrderVO orderVO = order2017TMapper.getOrderInfoById(uuid);
             if(orderVO == null || orderVO.getOrderId() == null){
                 log.error("订单信息查询失败,订单编号为{}",uuid);
                 return null;
@@ -163,16 +163,16 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
             log.error("订单查询业务失败，用户编号未传入");
             return null;
         }else{
-            List<OrderVO> ordersByUserId = orderTMapper.getOrdersByUserId(userId,page);
+            List<OrderVO> ordersByUserId = order2017TMapper.getOrdersByUserId(userId,page);
             if(ordersByUserId==null && ordersByUserId.size()==0){
                 result.setTotal(0);
                 result.setRecords(new ArrayList<>());
                 return result;
             }else{
                 // 获取订单总数
-                EntityWrapper<OrderT> entityWrapper = new EntityWrapper<>();
+                EntityWrapper<Order2017T> entityWrapper = new EntityWrapper<>();
                 entityWrapper.eq("order_user",userId);
-                Integer counts = orderTMapper.selectCount(entityWrapper);
+                Integer counts = order2017TMapper.selectCount(entityWrapper);
                 // 将结果放入Page
                 result.setTotal(counts);
                 result.setRecords(ordersByUserId);
@@ -195,7 +195,7 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
             log.error("查询已售座位错误，未传入任何场次编号");
             return "";
         }else{
-            String soldSeatsByFieldId = orderTMapper.getSoldSeatsByFieldId(fieldId);
+            String soldSeatsByFieldId = order2017TMapper.getSoldSeatsByFieldId(fieldId);
             return soldSeatsByFieldId;
         }
     }

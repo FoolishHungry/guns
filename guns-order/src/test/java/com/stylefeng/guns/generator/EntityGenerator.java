@@ -65,7 +65,7 @@ public class EntityGenerator {
         //strategy.setInclude(new String[]{"mooc_user_t"});
         /*strategy.setInclude(new String[]{"banner_t","cat_dict_t","source_dict_t","year_dict_t",
         "film_t", "film_info_t", "actor_t"});*///改动
-        strategy.setInclude(new String[]{"order_t"});
+        strategy.setInclude(new String[]{"order_2017_t","order_2018_t"});
         mpg.setStrategy(strategy);
 
         // 包配置
