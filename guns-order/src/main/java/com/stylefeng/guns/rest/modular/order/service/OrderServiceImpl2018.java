@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.modular.order.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -197,6 +198,45 @@ public class OrderServiceImpl2018 implements OrderServiceAPI {
         }else{
             String soldSeatsByFieldId = order2018TMapper.getSoldSeatsByFieldId(fieldId);
             return soldSeatsByFieldId;
+        }
+    }
+
+    @Override
+    public OrderVO getOrderInfoById(String orderId) {
+        OrderVO orderInfoById = order2018TMapper.getOrderInfoById(orderId);
+
+        return orderInfoById;
+    }
+
+    @Override
+    public boolean paySuccess(String orderId) {
+
+//        String userId = RpcContext.getContext().getAttachment("userId");
+//        System.out.println("userId = " + userId);
+
+        Order2018T orderT = new Order2018T();
+        orderT.setUuid(orderId);
+        orderT.setOrderStatus(1);
+
+        Integer integer = order2018TMapper.updateById(orderT);
+        if(integer>=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean payFail(String orderId) {
+        Order2018T orderT = new Order2018T();
+        orderT.setUuid(orderId);
+        orderT.setOrderStatus(2);
+
+        Integer integer = order2018TMapper.updateById(orderT);
+        if(integer>=1){
+            return true;
+        }else{
+            return false;
         }
     }
 }

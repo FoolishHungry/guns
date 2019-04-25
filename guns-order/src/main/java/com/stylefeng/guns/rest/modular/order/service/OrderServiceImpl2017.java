@@ -13,6 +13,7 @@ import com.stylefeng.guns.api.order.vo.OrderVO;
 import com.stylefeng.guns.core.util.UUIDUtil;
 import com.stylefeng.guns.rest.common.persistence.dao.Order2017TMapper;
 import com.stylefeng.guns.rest.common.persistence.model.Order2017T;
+import com.stylefeng.guns.rest.common.persistence.model.Order2018T;
 import com.stylefeng.guns.rest.common.util.FTPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,6 +198,41 @@ public class OrderServiceImpl2017 implements OrderServiceAPI {
         }else{
             String soldSeatsByFieldId = order2017TMapper.getSoldSeatsByFieldId(fieldId);
             return soldSeatsByFieldId;
+        }
+    }
+
+    @Override
+    public OrderVO getOrderInfoById(String orderId) {
+        OrderVO orderInfoById = order2017TMapper.getOrderInfoById(orderId);
+
+        return orderInfoById;
+    }
+
+    @Override
+    public boolean paySuccess(String orderId) {
+        Order2017T orderT = new Order2017T();
+        orderT.setUuid(orderId);
+        orderT.setOrderStatus(1);
+
+        Integer integer = order2017TMapper.updateById(orderT);
+        if(integer>=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean payFail(String orderId) {
+        Order2017T orderT = new Order2017T();
+        orderT.setUuid(orderId);
+        orderT.setOrderStatus(2);
+
+        Integer integer = order2017TMapper.updateById(orderT);
+        if(integer>=1){
+            return true;
+        }else{
+            return false;
         }
     }
 }
