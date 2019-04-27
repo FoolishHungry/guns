@@ -26,13 +26,13 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Service(interfaceClass = OrderServiceAPI.class,group = "order2018")
+@Service(interfaceClass = OrderServiceAPI.class,group = "order2018",filter = "tracing")
 public class OrderServiceImpl2018 implements OrderServiceAPI {
 
     @Autowired
     private Order2018TMapper order2018TMapper;
 
-    @Reference(interfaceClass = CinemaServiceAPI.class,check = false)
+    @Reference(interfaceClass = CinemaServiceAPI.class,check = false,filter = "tracing")
     private CinemaServiceAPI cinemaServiceAPI;
 
     @Autowired

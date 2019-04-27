@@ -34,7 +34,7 @@ public class OrderController {
     @Reference(
             interfaceClass = OrderServiceAPI.class,
             check = false,
-            group = "order2018"
+            group = "order2018",filter = "tracing"
     )
     private OrderServiceAPI orderServiceAPI;
 
@@ -45,7 +45,7 @@ public class OrderController {
     )
     private OrderServiceAPI orderServiceAPI2017;
 
-    @Reference(interfaceClass = AliPayServiceAPI.class,check = false)
+    @Reference(interfaceClass = AliPayServiceAPI.class,check = false,filter = "tracing")
     private AliPayServiceAPI aliPayServiceAPI;
 
     public ResponseVO error(Integer fieldId,String soldSeats,String seatsName){

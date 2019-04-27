@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Service(interfaceClass = CinemaServiceAPI.class,executes = 10)
+@Service(interfaceClass = CinemaServiceAPI.class,filter = "tracing")
 public class DefaultCinemaServiceImpl implements CinemaServiceAPI {
 
     @Autowired

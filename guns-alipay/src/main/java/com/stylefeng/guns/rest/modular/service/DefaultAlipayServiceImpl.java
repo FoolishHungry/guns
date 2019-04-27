@@ -37,10 +37,10 @@ import java.util.List;
 @Slf4j
 @Component
 @Service(interfaceClass = AliPayServiceAPI.class,
-        mock = "com.stylefeng.guns.api.alipay.AliPayServiceMock")
+        mock = "com.stylefeng.guns.api.alipay.AliPayServiceMock",filter = "tracing")
 public class DefaultAlipayServiceImpl implements AliPayServiceAPI {
 
-    @Reference(interfaceClass = OrderServiceAPI.class,check = false,group = "order2018")
+    @Reference(interfaceClass = OrderServiceAPI.class,check = false,group = "order2018",filter = "tracing")
     private OrderServiceAPI orderServiceAPI;
 
     @Autowired
@@ -217,8 +217,11 @@ public class DefaultAlipayServiceImpl implements AliPayServiceAPI {
                 //dumpResponse(response);
 
                 // 需要修改为运行机器上的路径
-                filePath = String.format("C:/Users/10792/Desktop/qrcode/qr-%s.png",
+                /*filePath = String.format("C:/Users/10792/Desktop/qrcode/qr-%s.png",
+                    response.getOutTradeNo());*/
+                filePath = String.format("/var/ftp/pub/temp/qr-%s.png",
                         response.getOutTradeNo());
+
                 String fileName = String.format("qr-%s.png",response.getOutTradeNo());
                 log.info("filePath:" + filePath);
                 File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
@@ -228,6 +231,7 @@ public class DefaultAlipayServiceImpl implements AliPayServiceAPI {
                     filePath = "";
                     log.error("二维码上传失败");
                 }
+                filePath = "qrcode/" + fileName;
 
                 break;
 
