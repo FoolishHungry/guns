@@ -23,7 +23,7 @@ public class Order2018T extends Model<Order2018T> {
     /**
      * 主键编号
      */
-    @TableId("UUID")
+    @TableField("UUID")
     private String uuid;
     /**
      * 影院编号

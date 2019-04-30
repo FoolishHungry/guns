@@ -8,12 +8,13 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+
+//@EnableHystrixDashboard
+//@EnableCircuitBreaker
+//@EnableHystrix
 @SpringBootApplication(scanBasePackages = {"com.stylefeng.guns"})
 @EnableAsync
 @EnableDubboConfiguration
-@EnableHystrixDashboard
-@EnableCircuitBreaker
-@EnableHystrix
 public class GatewayApplication {
 
     public static void main(String[] args) {

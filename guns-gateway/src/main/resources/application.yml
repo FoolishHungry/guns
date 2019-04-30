@@ -11,7 +11,7 @@ jwt:
   ignore-url: /user/register,/user/check,/film/getIndex,/film/getConditionList,/film/getFilms,/film/films,/cinema/getCinemas,/cinema/getCondition,/cinema/getFields,/cinema/getFieldInfo  #忽略列表
 
 server:
-  port: 8080 #项目端口
+  port: 8090 #项目端口
 
 mybatis-plus:
   mapper-locations: classpath*:com/stylefeng/guns/rest/**/mapping/*.xml
@@ -39,8 +39,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     # url: jdbc:mysql://47.103.11.71:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     username: root
-    # password: Zz123456?
-    password: 123456
+    password: Zz123456?
+    # password: 123456
     filters: log4j,wall,mergeStat
 
 logging:

@@ -45,6 +45,7 @@ public class OrderServiceImpl2018 implements OrderServiceAPI {
         String seatPath = order2018TMapper.getSeatsByFieldId(fieldId);
         log.debug("=*=*=*=*=*"+seatPath);
         // 读取位置图，判断seats是否为真
+
         String fileStrByAddress = ftpUtil.getFileStrByAddress(seatPath);
 
         // 将fileStrByAddress转换为JSON对象
@@ -118,6 +119,7 @@ public class OrderServiceImpl2018 implements OrderServiceAPI {
 
         Order2018T orderT = new Order2018T();
         orderT.setUuid(uuid);
+        log.info("orderT="+orderT.getUuid());
         orderT.setSeatsName(seatsName);
         orderT.setSeatsIds(soldSeats);
         orderT.setOrderUser(userId);
@@ -130,6 +132,7 @@ public class OrderServiceImpl2018 implements OrderServiceAPI {
         Integer insert = order2018TMapper.insert(orderT);
         if(insert>0){
             // 返回查询结果
+            log.info("***********************UUID="+uuid);
             OrderVO orderVO = order2018TMapper.getOrderInfoById(uuid);
             if(orderVO == null || orderVO.getOrderId() == null){
                 log.error("订单信息查询失败,订单编号为{}",uuid);
@@ -218,7 +221,7 @@ public class OrderServiceImpl2018 implements OrderServiceAPI {
         orderT.setUuid(orderId);
         orderT.setOrderStatus(1);
 
-        Integer integer = order2018TMapper.updateById(orderT);
+        Integer integer = order2018TMapper.updateByUuid(orderT.getUuid());
         if(integer>=1){
             return true;
         }else{

@@ -10,10 +10,16 @@ jwt:
   md5-key: randomKey      #md5加密混淆key
 
 ftp:
-  host-name: 47.103.11.71
-  port: 21
-  user-name: ftpClient
-  password: 123456
+  host-name: 127.0.0.1
+  port: 2102
+  user-name: ftp
+  password: ftp
+  upload-path: /qrcode
+  # host-name: 47.103.11.71
+  # port: 21
+  # user-name: ftpClient
+  # password: 123456
+
 
 server:
   port: 8086 #项目端口
@@ -48,8 +54,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     # url: jdbc:mysql://47.103.11.71:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     username: root
-    # password: Zz123456?
-    password: 123456
+    password: Zz123456?
+    # password: 123456
     filters: log4j,wall,mergeStat
 
 logging:

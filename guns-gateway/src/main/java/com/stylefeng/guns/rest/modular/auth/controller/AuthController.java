@@ -11,6 +11,7 @@ import com.stylefeng.guns.rest.modular.auth.validator.IReqValidator;
 import com.stylefeng.guns.rest.modular.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,8 @@ import javax.annotation.Resource;
  * @Date 2017/8/24 14:22
  */
 //申请JWT的controller
+
+//@CrossOrigin(origins = {"*"})
 @RestController
 public class AuthController {
 

@@ -24,4 +24,6 @@ public interface Order2018TMapper extends BaseMapper<Order2018T> {
     List<OrderVO> getOrdersByUserId(@Param("userId")Integer userId, Page<OrderVO> page);
 
     String getSoldSeatsByFieldId(@Param("fieldId")Integer fieldId);
+
+    Integer updateByUuid(@Param("orderId")String orderId);
 }

@@ -15,10 +15,7 @@ import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.rest.common.CurrentUser;
 import com.stylefeng.guns.rest.modular.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +55,7 @@ public class OrderController {
         线程池隔离
         线程切换
      */
-    @HystrixCommand(fallbackMethod = "error", commandProperties = {
+    /*@HystrixCommand(fallbackMethod = "error", commandProperties = {
             @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000"),
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
@@ -70,7 +67,7 @@ public class OrderController {
                     @HystrixProperty(name = "queueSizeRejectionThreshold", value = "8"),
                     @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
                     @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1500")
-            })
+            })*/
     @RequestMapping(value = "buyTickets",method = RequestMethod.POST)
     public ResponseVO buyTickets(Integer fieldId,String soldSeats,String seatsName){
 

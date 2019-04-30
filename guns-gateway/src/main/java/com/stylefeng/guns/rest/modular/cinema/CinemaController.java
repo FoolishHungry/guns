@@ -10,12 +10,14 @@ import com.stylefeng.guns.rest.modular.cinema.vo.CinemaFieldResponseVO;
 import com.stylefeng.guns.rest.modular.cinema.vo.CinemaFieldsResponseVO;
 import com.stylefeng.guns.rest.modular.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+//@CrossOrigin(origins = {"*"})
 @Slf4j
 @RestController
 @RequestMapping("/cinema/")
@@ -25,8 +27,8 @@ public class CinemaController {
                     connections = 10,cache = "lru",check = false)
     private CinemaServiceAPI cinemaServiceAPI;
 
-    @Reference(interfaceClass = OrderServiceAPI.class,check = false)
-    private OrderServiceAPI orderServiceAPI;
+    //@Reference(interfaceClass = OrderServiceAPI.class,check = false)
+    //private OrderServiceAPI orderServiceAPI;
 
     private static final String IMG_PRE = "http://img.meetingshop.cn/";
     @RequestMapping(value = "getCinemas")
@@ -101,8 +103,8 @@ public class CinemaController {
             HallInfoVO filmFieldInfo = cinemaServiceAPI.getFilmFieldInfo(fieldId);
 
             // 造几个销售的假数据，后续会对接订单接口
-            filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
-            //filmFieldInfo.setSoldSeats("1,3,5");
+            //filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
+            filmFieldInfo.setSoldSeats("1,3,5");
             CinemaFieldResponseVO cinemaFieldResponseVO = new CinemaFieldResponseVO();
             cinemaFieldResponseVO.setCinemaInfo(cinemaInfoById);
             cinemaFieldResponseVO.setFilmInfo(filmInfoByFieldId);

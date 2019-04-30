@@ -207,6 +207,7 @@ public class FilmController {
     public ResponseVO films(@PathVariable("searchParam")String searchParam,
                             int searchType) throws ExecutionException,InterruptedException {
          // 根据searchType，判断查询类型
+        System.out.println("11111111111111122222222222"+searchParam);
         FilmDetailVO filmDetail = filmServiceApi.getFilmDetail(searchType, searchParam);
         // 不同的查询类型，传入的条件会略有不同【】
 

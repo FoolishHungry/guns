@@ -71,4 +71,10 @@
     <select id="getSoldSeatsByFieldId" parameterType="java.lang.Integer" resultType="java.lang.String">
         SELECT GROUP_CONCAT(seats_ids) FROM order_2017_t where field_id=#{fieldId}
     </select>
+
+    <!--<update id="updateByUuid" parameterType="com.stylefeng.guns.api.order.vo.OrderVO">&ndash;&gt;-->
+        <!--update order_2018_t-->
+          <!--set order_status=1-->
+        <!--where UUID=#{orderId}-->
+    <!--</update>-->
 </mapper>
