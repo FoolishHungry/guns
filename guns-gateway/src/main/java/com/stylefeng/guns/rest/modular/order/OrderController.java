@@ -70,7 +70,7 @@ public class OrderController {
             })*/
     @RequestMapping(value = "buyTickets",method = RequestMethod.POST)
     public ResponseVO buyTickets(Integer fieldId,String soldSeats,String seatsName){
-
+        log.info("ticket + ="+ fieldId +" "+soldSeats + " " +seatsName);
         if(tokenBucket.getToken()){
             // 验证售出的票是否为真
             boolean isTrue = orderServiceAPI.isTrueSeats(fieldId+"",soldSeats);
@@ -107,7 +107,6 @@ public class OrderController {
             @RequestParam(name = "nowPage",required = false,defaultValue = "1")Integer nowPage,
             @RequestParam(name = "pageSize",required = false,defaultValue = "5")Integer pageSize
     ){
-
         // 获取当前登陆人的信息
         String userId = CurrentUser.getCurrentUser();
 

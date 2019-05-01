@@ -27,8 +27,8 @@ public class CinemaController {
                     connections = 10,cache = "lru",check = false)
     private CinemaServiceAPI cinemaServiceAPI;
 
-    //@Reference(interfaceClass = OrderServiceAPI.class,check = false)
-    //private OrderServiceAPI orderServiceAPI;
+    @Reference(interfaceClass = OrderServiceAPI.class,check = false)
+    private OrderServiceAPI orderServiceAPI;
 
     private static final String IMG_PRE = "http://img.meetingshop.cn/";
     @RequestMapping(value = "getCinemas")
@@ -94,17 +94,20 @@ public class CinemaController {
         }
     }
 
-    @RequestMapping(value = "getFieldInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "getFieldInfo",method = RequestMethod.GET)
     public ResponseVO getFieldInfo(Integer cinemaId,Integer fieldId){
         try{
-
+            log.info("cinemaId = "+cinemaId+"fieldId = "+fieldId);
             CinemaInfoVO cinemaInfoById = cinemaServiceAPI.getCinemaInfoById(cinemaId);
             FilmInfoVO filmInfoByFieldId = cinemaServiceAPI.getFilmInfoByFieldId(fieldId);
             HallInfoVO filmFieldInfo = cinemaServiceAPI.getFilmFieldInfo(fieldId);
 
             // 造几个销售的假数据，后续会对接订单接口
-            //filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
-            filmFieldInfo.setSoldSeats("1,3,5");
+            /*
+             **找不到提供者异常
+             */
+            filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
+            //filmFieldInfo.setSoldSeats("1,3,5");
             CinemaFieldResponseVO cinemaFieldResponseVO = new CinemaFieldResponseVO();
             cinemaFieldResponseVO.setCinemaInfo(cinemaInfoById);
             cinemaFieldResponseVO.setFilmInfo(filmInfoByFieldId);
