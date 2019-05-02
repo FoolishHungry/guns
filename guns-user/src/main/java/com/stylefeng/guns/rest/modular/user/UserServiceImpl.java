@@ -122,16 +122,16 @@ public class UserServiceImpl implements UserAPI{
         System.out.println("+++++++++++++++++++++++++++++");
         UserT userT = new UserT();
         userT.setUuid(userInfoModel.getUuid());
-        userT.setNickName(userInfoModel.getNickname());
-        userT.setLifeState(Integer.parseInt(userInfoModel.getLifeState()));
-        userT.setBirthday(userInfoModel.getBirthday());
-        userT.setBiography(userInfoModel.getBiography());
+        userT.setNickName("0");
+        userT.setLifeState(Integer.parseInt("0"));
+        userT.setBirthday("0");
+        userT.setBiography("0");
         userT.setBeginTime(null);
-        userT.setHeadUrl(userInfoModel.getHeadAddress());
+        userT.setHeadUrl("0");
         userT.setEmail(userInfoModel.getEmail());
         userT.setAddress(userInfoModel.getAddress());
         userT.setUserPhone(userInfoModel.getPhone());
-        userT.setUserSex(userInfoModel.getSex());
+        userT.setUserSex(0);
         userT.setUpdateTime(time2Date(System.currentTimeMillis()));
         // 将数据存入数据库
 

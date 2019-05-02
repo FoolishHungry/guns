@@ -219,8 +219,8 @@ public class DefaultAlipayServiceImpl implements AliPayServiceAPI {
                 // 需要修改为运行机器上的路径
                 /*filePath = String.format("C:/Users/10792/Desktop/qrcode/qr-%s.png",
                     response.getOutTradeNo());*/
-                filePath = String.format("C:/Users/10792/Desktop/qrcode/file/qr-%s.png",
-                    response.getOutTradeNo());
+                /*filePath = String.format("C:/Users/10792/Desktop/qrcode/file/qr-%s.png",
+                    response.getOutTradeNo());*/
                 filePath = String.format("C:/Users/10792/Desktop/qrcode/file/qrcode/qr-%s.png",
                         response.getOutTradeNo());
 
