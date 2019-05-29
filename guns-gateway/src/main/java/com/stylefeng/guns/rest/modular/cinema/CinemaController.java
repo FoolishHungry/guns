@@ -106,8 +106,34 @@ public class CinemaController {
             /*
              **找不到提供者异常
              */
-            filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
-            //filmFieldInfo.setSoldSeats("1,3,5");
+            String sss = orderServiceAPI.getSoldSeatsByFieldId(fieldId);
+            if(sss != null) {
+                String[] str = sss.split(",");
+                int[] arr = new int[str.length];
+                for (int i = 0; i < str.length; i++) {
+                    arr[i] = Integer.parseInt(str[i]);
+                }
+                for (int i = 0; i < arr.length; i++) {
+                    for (int j = i + 1; j < arr.length; j++) {
+                        if (arr[i] > arr[j]) {
+                            int temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                }
+                StringBuffer stringBuffer = new StringBuffer();
+                for (int i = 0; i < arr.length - 1; i++) {
+                    stringBuffer.append(arr[i]);
+                    stringBuffer.append(",");
+                }
+                stringBuffer.append(arr[arr.length - 1]);
+                //filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
+                filmFieldInfo.setSoldSeats(stringBuffer.toString());
+            }
+            //filmFieldInfo.setSoldSeats(orderServiceAPI.getSoldSeatsByFieldId(fieldId));
+            filmFieldInfo.setSoldSeats("1,3,5");//
+            //filmFieldInfo.setSoldSeats("7,11,12,13,15,17,18,19,20,21,24");
             CinemaFieldResponseVO cinemaFieldResponseVO = new CinemaFieldResponseVO();
             cinemaFieldResponseVO.setCinemaInfo(cinemaInfoById);
             cinemaFieldResponseVO.setFilmInfo(filmInfoByFieldId);

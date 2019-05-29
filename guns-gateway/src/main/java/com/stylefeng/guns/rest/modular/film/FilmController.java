@@ -244,7 +244,7 @@ public class FilmController {
         infoRequestVO.setActors(actorRequestVO);
         infoRequestVO.setBiography(filmDescVOFuture.get().getBiography());
         infoRequestVO.setFilmId(filmId);
-        infoRequestVO.setImgVO(imgVOFuture.get());
+        //infoRequestVO.setImgVO(imgVOFuture.get());
 
         // 组织成返回值
         filmDetail.setInfo04(infoRequestVO);
